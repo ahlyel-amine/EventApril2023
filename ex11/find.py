@@ -1,24 +1,24 @@
 import requests
 
-# Prompt the user to enter the name of a Pokemon
 pokemon_name = input("Enter the name of a Pokemon: ")
 
-# Construct the API endpoint URL for the specified Pokemon
-url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}/"
+url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}/"
 
-# Send a GET request to the PokeAPI endpoint to retrieve information about the Pokemon
 response = requests.get(url)
 
-# Check if the response was successful
 if response.status_code == 200:
-    # Extract the Pokemon's name and abilities from the response JSON
+
     data = response.json()
     pokemon_name = data['name'].capitalize()
-    abilities = [ability['ability']['name'].replace('-', ' ').capitalize() for ability in data['abilities']]
-    
-    # Display the Pokemon's name and abilities
+
+    abilities = []
+    ablility_tab = data['abilities']
+    for ability in ablility_tab :
+        abilities.append(ability['ability']['name'].capitalize())
+
     print(f"Name: {pokemon_name}")
     print("Abilities:")
+
     for ability in abilities:
         print(f"- {ability}")
 else:
